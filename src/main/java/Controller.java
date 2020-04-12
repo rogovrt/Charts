@@ -11,15 +11,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Controller {
+    private File file;
 
-    public static ObservableList<XYChart.Data> receiveXYChartPoints(File file) throws NumberFormatException{
+    public Controller(File file) {
+        this.file = file;
+    }
+
+    public ObservableList<XYChart.Data> receiveXYChartPoints() throws NumberFormatException{
         List<Pair<? extends Number, ? extends Number>> pairs = Model.readXYChartData(file);
         return FXCollections.observableArrayList(pairs.stream().map(pair ->
                 new XYChart.Data(pair.getKey(), pair.getValue())).collect(Collectors.toList())
         );
     }
 
-    public static ObservableList<PieChart.Data> receivePieChartPoints(File file) throws NumberFormatException{
+    public ObservableList<PieChart.Data> receivePieChartPoints() throws NumberFormatException{
         List<Pair<String, Double>> pairs = Model.readPieChartData(file);
         return FXCollections.observableArrayList(pairs.stream().map(pair ->
                 new PieChart.Data(pair.getKey(), pair.getValue())).collect(Collectors.toList())
